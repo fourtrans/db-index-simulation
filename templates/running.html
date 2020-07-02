@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Database Index Simulation</title>
+    <link rel="stylesheet" href="../static/jquery-ui.css">
+    <link rel="stylesheet" href="../static/general.css">
+    <link rel="stylesheet" href="../static/icon.css">
+    <style>
+        #allcontent {
+            margin: 5vh auto;
+            width: 85vw;
+            height: 90vh;
+            background-color: white;
+            border: 5px groove darkgray;
+            border-radius: 2em;
+        }
+
+        #main_panel {
+            margin: 3em auto;
+            width: 90%;
+            text-align: center;
+        }
+
+        #io_panel {
+            width: 60%;
+        }
+
+        #io_panel>div {
+            margin: 1em auto;
+            width: 100%;
+            text-align: center;
+        }
+
+        #iframe_result_state,
+        #iframe_result_content {
+            height: 25vh;
+        }
+
+        #sql_input_panel {
+            height: 20vh;
+        }
+
+        #sql_input_panel:last-child {
+            text-align: right;
+        }
+
+        #sql_text_input {
+            width: 35vw;
+            text-align: left;
+        }
+
+        #tree_view_panel {
+            vertical-align: top;
+            height: 80vh;
+            width: 30ww;
+        }
+
+        #tree_view_panel>div {
+            width: auto;
+            text-align: center;
+        }
+
+        #tree_view_panel img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        iframe {
+            margin: auto;
+            width: 100%;
+            border: thin solid lightgray;
+            border-radius: 1em;
+        }
+
+        .table {
+            display: table;
+            border-spacing: 1em;
+        }
+
+        .table_row {
+            display: table-row;
+        }
+
+        .table_cell {
+            display: table-cell;
+        }
+
+        .button {
+            text-align: center;
+            padding: 1em;
+        }
+
+        .definition_table {
+            border-spacing: 1em 0.2em;
+            height: 1.2em;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .definition_true {
+            color: steelblue;
+            font-weight: bold;
+        }
+
+        .definition_table p {
+            margin: 0px;
+        }
+    </style>
+
+    <script type="text/javascript" src="../static/jquery-3.5.1.js"></script>
+    <script type="text/javascript" src="../static/jquery-ui.js"></script>
+</head>
+
+<body>
+    <div id="allcontent">
+        <!-- Main Panel is here-->
+        <div id="main_panel" class="table">
+            <div class="table_row">
+                <!-- Here is interactive panel to enter sql, view table, result -->
+                <div id="io_panel" class="table_cell">
+                    <!-- result content here-->
+                    <div id="result_content_panel">
+                        <iframe id="iframe_result_content" src="../static/iframe_result_content.html" frameborder="0">
+                        </iframe>
+                    </div>
+                    <!-- result state here-->
+                    <div id="result_state_panel">
+                        <iframe id="iframe_result_state" src="../static/iframe_result_state.html"
+                            frameborder="0"></iframe>
+                    </div>
+                    <!-- Sql input here -->
+                    <div id="sql_input_panel">
+                        <div class="table">
+                            <div class="table_row">
+                                <div class="table_cell">
+                                    <input type="text" id="sql_text_input">
+                                    <input type="submit" id="query_button" value="Query" onclick="start_query()">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- here only to show the bplust tree -->
+                <div id="tree_view_panel" class="table_cell">
+                    <div id="tabs">
+                        <ul>
+                            <li><a href="#tabs-def">Def</a></li>
+                            {% for index in index_num_list %}
+                            <li><a href="#tabs-{{ index }}">{{ index }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        <div id="tabs-def">
+                            {% macro render_bool(val) %}
+                            {% if val %}
+                            <p class="definition_true">True</p>
+                            {% else %}
+                            <p>F</p>
+                            {% endif %}
+                            {% endmacro %}
+                            <table class="definition_table">
+                                <tr>
+                                    <th>#</th>
+                                    <th>属性名</th>
+                                    <th>属性类型</th>
+                                    <th>可为空</th>
+                                    <th>唯一</th>
+                                    <th>建立索引</th>
+                                </tr>
+                                {% for index, def in table_definition %}
+                                <tr>
+                                    <td>{{ index }}</td>
+                                    <td>{{ def['name'] }}</td>
+                                    <td>{{ def['type'] }}</td>
+                                    <td>{{ render_bool(def['is_nullable']) }}</td>
+                                    <td>{{ render_bool(def['is_unique']) }}</td>
+                                    <td>{{ render_bool(def['is_key']) }}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        {% for index in index_num_list %}
+                        <div id="tabs-{{ index }}">
+                            <img>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../static/running.js"></script>
+
+
+<script>
+
+</script>
+
+</html>

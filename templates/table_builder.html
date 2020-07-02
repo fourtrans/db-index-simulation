@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Database Index Simulation -- table builder</title>
+    <link rel="stylesheet" href="../static/general.css">
+    <link rel="stylesheet" href="../static/icon.css">
+    <style>
+        #allcontent {
+            margin: 5em auto;
+            width: 80%;
+            background-color: white;
+            border: 5px groove darkgray;
+            border-radius: 2em;
+        }
+
+        #input_panel {
+            margin: 2em auto;
+            text-align: center;
+        }
+
+        #configure_block {
+            margin: 5em auto;
+            width: 80%;
+            text-align: center;
+        }
+
+        #error_block {
+            text-align: center;
+            margin: 1em auto;
+            padding: 0.5em;
+            width: 80%;
+            background-color: rgb(255, 212, 196);
+            border-radius: 0.5em;
+        }
+
+        #error_block h1 {
+            font-size: 120%;
+        }
+
+        #error_block em {
+            font-size: 90%;
+        }
+
+        .table {
+            display: table;
+            border-spacing: 2em 0.2em;
+        }
+
+        .tableRow {
+            display: table-row;
+        }
+
+        .tableCell {
+            display: table-cell;
+        }
+
+        .tableHeader {
+            display: table-row;
+            font-weight: bold;
+        }
+
+        .button {
+            text-align: center;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="allcontent">
+    {% if errorless %}
+    {% else %}
+    {% include 'error_block.html' %}
+    {% endif %}
+    <form action="./form" method="POST">
+        <!--创建表-->
+        <div id="input_panel" class="table">
+            <!--设置表属性的头部-->
+            <div class="tableHeader">
+                <div class="tableCell">
+                    <p>属性名</p>
+                </div>
+                <div class="tableCell">
+                    <p>属性类型</p>
+                </div>
+                <div class="tableCell">
+                    <p>是否主码</p>
+                </div>
+                <div class="tableCell">
+                    <p>是否允许为空</p>
+                </div>
+                <div class="tableCell">
+                    <p>是否唯一值</p>
+                </div>
+                <div class="tableCell">
+                    <p>是否建立索引</p>
+                </div>
+                <div class="tableCell">
+                    <i class="gg-add" onclick="add_attribute()"></i>
+                </div>
+            </div>
+            <!--设置表的属性-->
+            <div id="attribute_tmp_0" class="tableRow">
+                <div class="tableCell">
+                    <input type="text" name="0_name">
+                </div>
+                <div class="tableCell">
+                    <select name="0_type">
+                        <option value="int">Int</option>
+                        <option value="float">Float</option>
+                        <option value="str">String</option>
+                        <option value="bool">Bool</option>
+                    </select>
+                </div>
+                <div class="tableCell">
+                    <input type="radio" name="main_key" value="0" onclick="select_main_key(0)">
+                </div>
+                <div class="tableCell">
+                    <input type="checkbox" name="is_nullable" value="0">
+                </div>
+                <div class="tableCell">
+                    <input type="checkbox" name="is_unique" value="0">
+                </div>
+                <div class="tableCell">
+                    <input type="checkbox" name="is_key" value="0">
+                </div>
+                <div class="tableCell">
+                    <i class="gg-remove" onclick="remove_attribute(0)"></i>
+                </div>
+            </div>
+        </div>
+        <div id="configure_block">
+            <input id="configure_button" class="button" type="submit" value="创建表格">
+        </div>
+    </form>
+</div>
+</body>
+
+<script type="text/javascript" src="../static/table_builder.js"></script>
+
+</html>
